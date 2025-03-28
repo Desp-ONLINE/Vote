@@ -14,13 +14,16 @@ public class VoteListener implements Listener {
     public void playerVote(VotifierEvent event) {
         String username = event.getVote().getUsername();
         Player player = Bukkit.getPlayer(username);
-
         if(player == null) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
             PlayerDataRepository.getInstance().setPlayerVoteTrue(offlinePlayer);
             return;
         }
-
         PlayerDataRepository.getInstance().setPlayerVoteTrue(player);
+        int playerVoteStreak = PlayerDataRepository.getInstance().getPlayerVoteStreak(player);
+        if(playerVoteStreak == 3) {
+
+        }
+
     }
 }
