@@ -1,5 +1,6 @@
 package org.desp.vote.database;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
@@ -87,11 +88,11 @@ public class PlayerDataRepository {
     }
 
     public void resetPlayerVote() {
-        try {
-            playerList.deleteMany(new Document());
-            System.out.println("추천 플레이어 디비 삭제 완료");
-        } catch (Exception e) {
-            System.out.println("추천 플레이어 디비 삭제 중 오류 발생");
+        FindIterable<Document> documents = playerList.find();
+        Document update = new Document().append("isVoted", false);
+        Document updateOperation = new Document("$set", update);
+        for (Document doc : documents) {
+            playerList.updateOne(doc, updateOperation);
         }
     }
 }
