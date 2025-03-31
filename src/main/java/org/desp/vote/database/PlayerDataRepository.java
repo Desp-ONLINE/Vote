@@ -33,25 +33,14 @@ public class PlayerDataRepository {
         playerList.deleteMany(new Document());
     }
 
-    public int getPlayerVoteStreak(Player player){
-        Document first = playerList.find(new Document("uuid", player.getUniqueId().toString())).first();
 
-        return first.getInteger("voteStreak");
-    }
-    public List<Integer> getPlayerMonthlyVotedDate(Player player){
-        Document first = playerList.find(new Document("uuid", player.getUniqueId().toString())).first();
-
-        return first.getList("monthlyVotedDate", Integer.class);
-    }
 
     public void insertDefaultPlayerData(Player player) {
-        List<Integer> list = new ArrayList<Integer>();
         Document document = new Document()
                 .append("user_id", player.getName())
                 .append("uuid", player.getUniqueId().toString())
                 .append("isVoted", false)
-                .append("voteStreak", 0)
-                .append("monthlyVotedDate", list);
+                .append("monthlyVoteCount", 0);
 
         playerList.insertOne(document);
     }
@@ -59,6 +48,10 @@ public class PlayerDataRepository {
     public boolean isPlayerVoteToday(Player player) {
         Document document = playerList.find(Filters.eq("uuid", player.getUniqueId().toString())).first();
         return document.getBoolean("isVoted");
+    }
+    public int getPlayerMonthlyVoteCount(Player player) {
+        Document document = playerList.find(Filters.eq("uuid", player.getUniqueId().toString())).first();
+        return document.getInteger("monthlyVoteCount");
     }
 
     public boolean playerExists(Player player) {
@@ -71,19 +64,9 @@ public class PlayerDataRepository {
                 .append("uuid", player.getUniqueId().toString());
 
         Document first = playerList.find(filter).first();
-        Integer voteStreak = first.getInteger("voteStreak");
-        List<Integer> monthlyVotedDate = first.getList("monthlyVotedDate", Integer.class);
+        Integer monthlyVoteCount = first.getInteger("monthlyVoteCount")+1;
 
-
-        int dayOfMonth = LocalDateTime.now().getDayOfMonth();
-        if(monthlyVotedDate.contains(dayOfMonth-1) || voteStreak == 0){
-            voteStreak+=1;
-        }
-        monthlyVotedDate.add(dayOfMonth);
-        Set<Integer> set = new HashSet<>(monthlyVotedDate);
-        List<Integer> result = new ArrayList<>(set);
-
-        Document update = new Document().append("isVoted", true).append("voteStreak", voteStreak).append("monthlyVotedDate", result);
+        Document update = new Document().append("isVoted", true).append("monthlyVoteCount", monthlyVoteCount);
 
         Document updateOperation = new Document("$set", update);
 
