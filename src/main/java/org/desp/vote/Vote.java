@@ -9,8 +9,9 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.desp.vote.Command.VoteCommand;
+import org.desp.vote.Command.VotePurchaseCommand;
+import org.desp.vote.Command.VoteShopCommand;
 import org.desp.vote.database.PlayerDataRepository;
 import org.desp.vote.listener.PlayerJoinAndQuitListener;
 import org.desp.vote.listener.VoteListener;
@@ -33,6 +34,8 @@ public final class Vote extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerJoinAndQuitListener(), this);
         Bukkit.getPluginManager().registerEvents(new VoteListener(), this);
         getCommand("추천").setExecutor(new VoteCommand());
+        getCommand("추천구매").setExecutor(new VotePurchaseCommand());
+        getCommand("추천상점").setExecutor(new VoteShopCommand());
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if(!PlayerDataRepository.getInstance().playerExists(onlinePlayer)){
                 PlayerDataRepository.getInstance().insertDefaultPlayerData(onlinePlayer);

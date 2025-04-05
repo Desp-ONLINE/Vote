@@ -6,3 +6,5 @@ depend: [MongoLibraryPlugin, VotifierPlus]
 commands:
   추천:
     aliases: ["cncjs"]
+  추천구매:
+  추천상점:

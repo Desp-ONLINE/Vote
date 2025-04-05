@@ -3,19 +3,17 @@ package org.desp.vote.database;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.ReplaceOptions;
 import org.bson.Document;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-
-import java.time.LocalDateTime;
-import java.util.*;
 
 public class PlayerDataRepository {
 
     private static PlayerDataRepository instance;
     private final MongoCollection<Document> playerList;
+
+
+
 
 
     public PlayerDataRepository() {
@@ -34,6 +32,15 @@ public class PlayerDataRepository {
         playerList.deleteMany(new Document());
     }
 
+    public boolean consumePlayerMonthlyCount(Player player, int price){
+        int playerMonthlyVoteCount = getPlayerMonthlyVoteCount(player);
+        if(playerMonthlyVoteCount < price){
+            player.sendMessage("§c 월간 추천 포인트가 부족합니다! §7§o(현재 내 포인트: "+playerMonthlyVoteCount+")");
+            return false;
+        }
+        consumePlayerVotePoint(player, price);
+        return true;
+    }
 
 
     public void insertDefaultPlayerData(Player player) {
@@ -73,18 +80,31 @@ public class PlayerDataRepository {
 
         playerList.updateOne(filter, updateOperation);
     }
+    public void consumePlayerVotePoint(Player player, int amount) {
+        Document filter = new Document()
+                .append("uuid", player.getUniqueId().toString());
+
+        int consumedPoint = getPlayerMonthlyVoteCount(player) - amount;
+
+        Document update = new Document().append("monthlyVoteCount", consumedPoint);
+
+        Document updateOperation = new Document("$set", update);
+
+        playerList.updateOne(filter, updateOperation);
+    }
 
     public void setPlayerVoteTrue(OfflinePlayer player) {
-        Document document = new Document()
-                .append("user_id", player.getName())
-                .append("uuid", player.getUniqueId().toString())
-                .append("isVoted", true);
+        Document filter = new Document()
+                .append("uuid", player.getUniqueId().toString());
 
-        playerList.replaceOne(
-                Filters.eq("uuid", player.getUniqueId().toString()),
-                document,
-                new ReplaceOptions().upsert(true)
-        );
+        Document first = playerList.find(filter).first();
+        Integer monthlyVoteCount = first.getInteger("monthlyVoteCount")+1;
+
+        Document update = new Document().append("isVoted", true).append("monthlyVoteCount", monthlyVoteCount);
+
+        Document updateOperation = new Document("$set", update);
+
+        playerList.updateOne(filter, updateOperation);
     }
 
     public void resetPlayerVote() {
