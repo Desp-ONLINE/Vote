@@ -17,7 +17,7 @@ public class VoteCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         TextComponent textComponent = new TextComponent("§a  §n클릭 시 월간 추천 보상 상점을 오픈할 수 있습니다.");
-        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§a클릭 시, 월간 추천 보상 상점을 오픈할 수 있습니다! §7§o(/추천상점 명령어로도 오픈할 수 있습니다.)")));
+        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§a클릭 시, 월간 추천 보상 상점을 오픈할 수 있습ㅈ니다! §7§o(/추천상점 명령어로도 오픈할 수 있습니다.)")));
         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/추천상점"));
         Player player = (Player) commandSender;
         player.sendMessage("");
