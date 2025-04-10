@@ -7,7 +7,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +34,7 @@ public final class Vote extends JavaPlugin {
         LocalDate now = LocalDate.now();
         lastCheckedMonth = now.getMonthValue();
         scheduleDailyReset();
+        minuteScheduler();
         Bukkit.getPluginManager().registerEvents(new PlayerJoinAndQuitListener(), this);
         Bukkit.getPluginManager().registerEvents(new VoteListener(), this);
         getCommand("추천").setExecutor(new VoteCommand());
@@ -72,12 +72,15 @@ public final class Vote extends JavaPlugin {
         }, delay, 86400000); // 매일 실행
     }
 
-    private void scheduleResetDailyVote() {
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new BukkitRunnable() {
+    private void minuteScheduler() {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
             @Override
             public void run() {
                 LocalTime now = LocalTime.now();
-                if (now.getHour() == 21 && now.getMinute() == 1) {
+                if(now.getHour() == 21 && now.getMinute() == 0){
+                    Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
+                    int voteAmount = dailyVote / 10;
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 900");
                     DailyVoteRepository.getInstance().resetDailyVote();
                 }
             }
