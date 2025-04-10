@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.desp.IDEPass.api.IDEPassAPI;
+import org.desp.vote.database.DailyVoteRepository;
 import org.desp.vote.database.PlayerDataRepository;
 
 import java.util.ArrayList;
@@ -34,13 +35,15 @@ public class VoteListener implements Listener {
                 voteCoin.setAmount(2);
                 ruby.setAmount(2);
             }
+            DailyVoteRepository.getInstance().addDailyVote();
             List<ItemStack> items = new ArrayList<>();
             items.add(voteCoin);
             items.add(ruby);
             MMOMail mmoMail = MMOMail.getInstance();
             Mail rewardMail = mmoMail.getMailAPI().createMail("시스템", "추천 보상입니다.", 0, items);
             mmoMail.getMailAPI().sendMail(username, rewardMail);
-            Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천)");
+            Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
+            Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9시에, 당일 추천 수/10 만큼 10분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
             return;
         }
 
@@ -51,13 +54,15 @@ public class VoteListener implements Listener {
             voteCoin.setAmount(2);
             ruby.setAmount(2);
         }
+        DailyVoteRepository.getInstance().addDailyVote();
         List<ItemStack> items = new ArrayList<>();
         items.add(voteCoin);
         items.add(ruby);
+        Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
         MMOMail mmoMail = MMOMail.getInstance();
         Mail rewardMail = mmoMail.getMailAPI().createMail("시스템", "추천 보상입니다.", 0, items);
         mmoMail.getMailAPI().sendMail(username, rewardMail);
-        Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천)");
+        Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9시에, 당일 추천 수/10 만큼 10분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
         // db 업로드부
         if(player == null) {
             offlinePlayer = Bukkit.getOfflinePlayer(username);

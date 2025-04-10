@@ -1,17 +1,21 @@
 package org.desp.vote;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.desp.vote.Command.VoteCommand;
 import org.desp.vote.Command.VotePurchaseCommand;
 import org.desp.vote.Command.VoteShopCommand;
+import org.desp.vote.database.DailyVoteRepository;
 import org.desp.vote.database.PlayerDataRepository;
 import org.desp.vote.listener.PlayerJoinAndQuitListener;
 import org.desp.vote.listener.VoteListener;
@@ -37,7 +41,7 @@ public final class Vote extends JavaPlugin {
         getCommand("추천구매").setExecutor(new VotePurchaseCommand());
         getCommand("추천상점").setExecutor(new VoteShopCommand());
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if(!PlayerDataRepository.getInstance().playerExists(onlinePlayer)){
+            if (!PlayerDataRepository.getInstance().playerExists(onlinePlayer)) {
                 PlayerDataRepository.getInstance().insertDefaultPlayerData(onlinePlayer);
             }
         }
@@ -67,5 +71,18 @@ public final class Vote extends JavaPlugin {
             }
         }, delay, 86400000); // 매일 실행
     }
+
+    private void scheduleResetDailyVote() {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new BukkitRunnable() {
+            @Override
+            public void run() {
+                LocalTime now = LocalTime.now();
+                if (now.getHour() == 21 && now.getMinute() == 1) {
+                    DailyVoteRepository.getInstance().resetDailyVote();
+                }
+            }
+        }, 0L, 20L * 60);
+    }
+
 
 }
