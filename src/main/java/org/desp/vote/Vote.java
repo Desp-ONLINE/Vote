@@ -73,7 +73,7 @@ public final class Vote extends JavaPlugin {
     }
 
     private void minuteScheduler() {
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
                 LocalTime now = LocalTime.now();
