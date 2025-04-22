@@ -78,17 +78,27 @@ public final class Vote extends JavaPlugin {
             @Override
             public void run() {
                 LocalTime now = LocalTime.now();
+                if(now.getHour() == 18 && now.getMinute() == 0){
+                    Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
+                    if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
+                        int voteAmount = dailyVote / 7;
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
+                        return;
+                    }
+                    int voteAmount = dailyVote / 10;
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
+                    DailyVoteRepository.getInstance().resetDailyVote();
+                }
                 if(now.getHour() == 21 && now.getMinute() == 0){
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
                         int voteAmount = dailyVote / 7;
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 900");
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
                         DailyVoteRepository.getInstance().resetDailyVote();
                         return;
                     }
                     int voteAmount = dailyVote / 10;
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 900");
-                    DailyVoteRepository.getInstance().resetDailyVote();
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
                 }
             }
         }, 0L, 20L * 60);
