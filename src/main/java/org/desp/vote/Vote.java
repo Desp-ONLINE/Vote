@@ -87,7 +87,6 @@ public final class Vote extends JavaPlugin {
                     }
                     int voteAmount = dailyVote / 10;
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
-                    DailyVoteRepository.getInstance().resetDailyVote();
                 }
                 if(now.getHour() == 21 && now.getMinute() == 0){
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
@@ -99,6 +98,7 @@ public final class Vote extends JavaPlugin {
                     }
                     int voteAmount = dailyVote / 10;
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
+                    DailyVoteRepository.getInstance().resetDailyVote();
                 }
             }
         }, 0L, 20L * 60);
