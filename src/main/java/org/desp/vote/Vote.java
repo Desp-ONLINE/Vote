@@ -78,7 +78,7 @@ public final class Vote extends JavaPlugin {
             @Override
             public void run() {
                 LocalTime now = LocalTime.now();
-                if(now.getHour() == 18 && now.getMinute() == 0){
+                if(now.getHour() == 21 && now.getMinute() == 0){
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
                         int voteAmount = dailyVote / 7;
@@ -88,7 +88,7 @@ public final class Vote extends JavaPlugin {
                     int voteAmount = dailyVote / 10;
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
                 }
-                if(now.getHour() == 21 && now.getMinute() == 0){
+                if(now.getHour() == 22 && now.getMinute() == 0){
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
                         int voteAmount = dailyVote / 7;

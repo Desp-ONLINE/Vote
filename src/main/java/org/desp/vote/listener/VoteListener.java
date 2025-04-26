@@ -43,7 +43,7 @@ public class VoteListener implements Listener {
             Mail rewardMail = mmoMail.getMailAPI().createMail("시스템", "추천 보상입니다.", 0, items);
             mmoMail.getMailAPI().sendMail(username, rewardMail);
             Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
-            Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 6/9시에 당일 추천 수/10 만큼 10분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
+            Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9/10시에 당일 추천 수/10 만큼 10분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
             PlayerDataRepository.getInstance().setPlayerVoteTrue(offlinePlayer);
             return;
         }
@@ -63,7 +63,7 @@ public class VoteListener implements Listener {
         MMOMail mmoMail = MMOMail.getInstance();
         Mail rewardMail = mmoMail.getMailAPI().createMail("시스템", "추천 보상입니다.", 0, items);
         mmoMail.getMailAPI().sendMail(username, rewardMail);
-        Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 6/9시에 당일 추천 수/10 만큼 10분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
+        Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9/10시에 당일 추천 수/10 만큼 10분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
         PlayerDataRepository.getInstance().setPlayerVoteTrue(player);
 
 
