@@ -82,22 +82,12 @@ public final class Vote extends JavaPlugin {
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
                         int voteAmount = dailyVote / 7;
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
-                        return;
-                    }
-                    int voteAmount = dailyVote / 10;
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
-                }
-                if(now.getHour() == 22 && now.getMinute() == 0){
-                    Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
-                    if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
-                        int voteAmount = dailyVote / 7;
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1500");
                         DailyVoteRepository.getInstance().resetDailyVote();
                         return;
                     }
                     int voteAmount = dailyVote / 10;
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 600");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1500");
                     DailyVoteRepository.getInstance().resetDailyVote();
                 }
             }
