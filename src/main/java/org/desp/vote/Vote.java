@@ -82,7 +82,7 @@ public final class Vote extends JavaPlugin {
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
                         int voteAmount = dailyVote / 7;
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1500");
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1800");
                         DailyVoteRepository.getInstance().resetDailyVote();
                         return;
                     }
