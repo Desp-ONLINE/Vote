@@ -87,7 +87,7 @@ public final class Vote extends JavaPlugin {
                         return;
                     }
                     int voteAmount = dailyVote / 8;
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1500");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1800");
                     DailyVoteRepository.getInstance().resetDailyVote();
                 }
             }
