@@ -51,7 +51,7 @@ public class VoteListener implements Listener {
             return;
         }
 
-        boolean activate = IDEPassAPI.getPlayer(player.getUniqueId().toString()).isActivate();
+        boolean activate = IDEPassAPI.getPlayer(player.getUniqueId().toString()).getPassType().equals("full");
         ItemStack voteCoin = MMOItems.plugin.getItem("MISCELLANEOUS", "기타_추천코인");
         ItemStack ruby = MMOItems.plugin.getItem("CONSUMABLE", "기타_루비");
         ItemStack midas = MMOItems.plugin.getItem("MISCELLANEOUS", "기타_미다스의손");
