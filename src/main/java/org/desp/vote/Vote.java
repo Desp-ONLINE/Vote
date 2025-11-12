@@ -81,12 +81,12 @@ public final class Vote extends JavaPlugin {
                 if(now.getHour() == 21 && now.getMinute() == 0){
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
-                        int voteAmount = dailyVote / 6;
+                        int voteAmount = dailyVote / 5;
                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1800");
                         DailyVoteRepository.getInstance().resetDailyVote();
                         return;
                     }
-                    int voteAmount = dailyVote / 8;
+                    int voteAmount = dailyVote / 7;
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1800");
                     DailyVoteRepository.getInstance().resetDailyVote();
                 }

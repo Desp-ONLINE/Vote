@@ -26,8 +26,6 @@ public class VoteShopCommand implements CommandExecutor {
             return false;
         }
         player.sendMessage("§c 로비에서 이용할 수 있습니다.");
-
-
         return true;
     }
 

@@ -26,54 +26,65 @@ public class VotePurchaseCommand implements CommandExecutor {
         }
         boolean isSuccessfullyConsumed;
         switch (strings[0]){
-            case "판도라의열쇠":
-                isSuccessfullyConsumed = PlayerDataRepository.getInstance().consumePlayerMonthlyCount(player, 3);
+            case "태양석":
+                isSuccessfullyConsumed = PlayerDataRepository.getInstance().consumePlayerMonthlyCount(player, 2);
                 if(isSuccessfullyConsumed){
-                    ItemStack resultItem = MMOItems.plugin.getItem("MISCELLANEOUS", "기타_판도라의열쇠");
+                    ItemStack resultItem = MMOItems.plugin.getItem("MISCELLANEOUS", "채집_태양석");
                     List<ItemStack> items = new ArrayList<>();
                     items.add(resultItem);
                     Mail mail = MMOMail.getInstance().getMailAPI().createMail("시스템", "추천 상점 구매 물품입니다.", 0, items);
                     MMOMail.getInstance().getMailAPI().sendMail(player.getName(), mail);
-                    player.sendMessage("§a 성공적으로 판도라의 열쇠를 구매했습니다!");
-                    System.out.println(player.getName() +" 님께서 판도라의 열쇠 추천상점에서 구매");
+                    player.sendMessage("§a 성공적으로 태양석을 구매했습니다!");
+                    System.out.println(player.getName() +" 님께서 태양석 추천상점에서 구매");
                 }
                 return true;
-
-            case "수호의빛":
+            case "청령의보주":
+                isSuccessfullyConsumed = PlayerDataRepository.getInstance().consumePlayerMonthlyCount(player, 5);
+                if(isSuccessfullyConsumed){
+                    ItemStack resultItem = MMOItems.plugin.getItem("MISCELLANEOUS", "기타_청령의보주");
+                    List<ItemStack> items = new ArrayList<>();
+                    items.add(resultItem);
+                    Mail mail = MMOMail.getInstance().getMailAPI().createMail("시스템", "추천 상점 구매 물품입니다.", 0, items);
+                    MMOMail.getInstance().getMailAPI().sendMail(player.getName(), mail);
+                    player.sendMessage("§a 성공적으로 청령의 보주를 구매했습니다!");
+                    System.out.println(player.getName() +" 님께서 청령의 보주 추천상점에서 구매");
+                }
+                return true;
+            case "오션크리스탈":
                 isSuccessfullyConsumed = PlayerDataRepository.getInstance().consumePlayerMonthlyCount(player, 10);
                 if(isSuccessfullyConsumed){
-                    ItemStack resultItem = MMOItems.plugin.getItem("MISCELLANEOUS", "기타_파괴방지권");
+                    ItemStack resultItem = MMOItems.plugin.getItem("MISCELLANEOUS", "낚시_오션크리스탈");
                     List<ItemStack> items = new ArrayList<>();
                     items.add(resultItem);
                     Mail mail = MMOMail.getInstance().getMailAPI().createMail("시스템", "추천 상점 구매 물품입니다.", 0, items);
                     MMOMail.getInstance().getMailAPI().sendMail(player.getName(), mail);
-                    player.sendMessage("§a 성공적으로 수호의 빛을 구매했습니다!");
-                    System.out.println(player.getName() +" 님께서 수호의 빛 추천상점에서 구매");
-
+                    player.sendMessage("§a 성공적으로 오션 크리스탈을 구매했습니다!");
+                    System.out.println(player.getName() +" 님께서 오션 크리스탈 추천상점에서 구매");
                 }
                 return true;
-            case "레전더리열쇠":
-                isSuccessfullyConsumed = PlayerDataRepository.getInstance().consumePlayerMonthlyCount(player, 14);
+            case "치장코인":
+                isSuccessfullyConsumed = PlayerDataRepository.getInstance().consumePlayerMonthlyCount(player, 6);
                 if(isSuccessfullyConsumed){
-                    ItemStack resultItem = MMOItems.plugin.getItem("MISCELLANEOUS", "기타_판도라의열쇠_레전더리");
+                    ItemStack resultItem = MMOItems.plugin.getItem("MISCELLANEOUS", "기타_치장코인");
                     List<ItemStack> items = new ArrayList<>();
                     items.add(resultItem);
                     Mail mail = MMOMail.getInstance().getMailAPI().createMail("시스템", "추천 상점 구매 물품입니다.", 0, items);
                     MMOMail.getInstance().getMailAPI().sendMail(player.getName(), mail);
-                    player.sendMessage("§a 성공적으로 판도라의 열쇠 (레전더리)를 구매했습니다!");
-                    System.out.println(player.getName() +" 님께서 레전더리 열쇠 추천상점에서 구매");
+                    player.sendMessage("§a 성공적으로 치장 코인을 구매했습니다!");
+                    System.out.println(player.getName() +" 님께서 치장코인 추천상점에서 구매");
                 }
                 return true;
-            case "50루비":
+            case "80루비":
                 isSuccessfullyConsumed = PlayerDataRepository.getInstance().consumePlayerMonthlyCount(player, 30);
                 if(isSuccessfullyConsumed){
-                    ItemStack resultItem = MMOItems.plugin.getItem("CONSUMABLE", "기타_루비50");
+                    ItemStack resultItem = MMOItems.plugin.getItem("CONSUMABLE", "기타_루비10");
+                    resultItem.setAmount(8);
                     List<ItemStack> items = new ArrayList<>();
                     items.add(resultItem);
                     Mail mail = MMOMail.getInstance().getMailAPI().createMail("시스템", "추천 상점 구매 물품입니다.", 0, items);
                     MMOMail.getInstance().getMailAPI().sendMail(player.getName(), mail);
-                    player.sendMessage("§a 성공적으로 50 루비를 구매했습니다!");
-                    System.out.println(player.getName() +" 님께서 50 루비 추천상점에서 구매");
+                    player.sendMessage("§a 성공적으로 80 루비를 구매했습니다!");
+                    System.out.println(player.getName() +" 님께서 80 루비 추천상점에서 구매");
                 }
                 return true;
 
