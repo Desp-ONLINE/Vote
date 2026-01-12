@@ -24,6 +24,7 @@ public class VoteListener implements Listener {
     public void playerVote(VotifierEvent event) {
         String username = event.getVote().getUsername();
         Player player = Bukkit.getPlayer(username);
+        System.out.println("username = " + username);
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
 
         // 추천보상 지급부
