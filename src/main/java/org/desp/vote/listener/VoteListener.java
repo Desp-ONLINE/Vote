@@ -1,7 +1,11 @@
 package org.desp.vote.listener;
 
+import com.binggre.binggreapi.utils.ColorManager;
 import com.binggre.mmomail.MMOMail;
 import com.binggre.mmomail.objects.Mail;
+import com.binggre.velocitysocketclient.VelocityClient;
+import com.binggre.velocitysocketclient.listener.BroadcastStringVelocityListener;
+import com.binggre.velocitysocketclient.listener.VelocitySocketListener;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import net.Indyuce.mmoitems.MMOItems;
@@ -14,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.desp.IDEPass.api.IDEPassAPI;
 import org.desp.vote.database.DailyVoteRepository;
 import org.desp.vote.database.PlayerDataRepository;
+import org.swlab.etcetera.EtCetera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +27,11 @@ public class VoteListener implements Listener {
 
     @EventHandler
     public void playerVote(VotifierEvent event) {
+        if(!(EtCetera.getChannelNumber() == 1 && EtCetera.getChannelType().equals("lobby"))){
+            return;
+        }
         String username = event.getVote().getUsername();
         Player player = Bukkit.getPlayer(username);
-        System.out.println("username = " + username);
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(username);
 
         // 추천보상 지급부
@@ -47,7 +54,9 @@ public class VoteListener implements Listener {
             Mail rewardMail = mmoMail.getMailAPI().createMail("시스템", "추천 보상입니다.", 0, items);
             mmoMail.getMailAPI().sendMail(username, rewardMail);
             Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
-            Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9시에 당일 추천 수/7 만큼 30분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
+            String message = ColorManager.format("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9시에 당일 추천 수/7 만큼 30분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
+            Bukkit.broadcastMessage(message);
+            VelocityClient.getInstance().getConnectClient().send(BroadcastStringVelocityListener.class, message);
             PlayerDataRepository.getInstance().setPlayerVoteTrue(offlinePlayer);
             return;
         }
@@ -70,7 +79,9 @@ public class VoteListener implements Listener {
         MMOMail mmoMail = MMOMail.getInstance();
         Mail rewardMail = mmoMail.getMailAPI().createMail("시스템", "추천 보상입니다.", 0, items);
         mmoMail.getMailAPI().sendMail(username, rewardMail);
-        Bukkit.broadcastMessage("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9시에 당일 추천 수/7 만큼 30분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
+        String message = ColorManager.format("  §f" + username + "§a님께서 서버를 추천하여 보상을 지급받았습니다! §7§o(/추천) §f| §a오늘의 추천 횟수: §f"+dailyVote+"회 §7§o(매일 오후 9시에 당일 추천 수/7 만큼 30분간 추가 경험치 이벤트가 진행됩니다! 추천은 매일 오후 9시에 초기화됩니다.)");
+        Bukkit.broadcastMessage(message);
+        VelocityClient.getInstance().getConnectClient().send(BroadcastStringVelocityListener.class, message);
         PlayerDataRepository.getInstance().setPlayerVoteTrue(player);
 
 

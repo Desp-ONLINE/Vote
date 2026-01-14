@@ -21,11 +21,11 @@ public class VoteShopCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         Player player = (Player) commandSender;
-        if(EtCetera.getChannelType().equals("lobby")){
+        if(EtCetera.getChannelType().equals("lobby") && EtCetera.getChannelNumber() == 1){
             CommandUtil.runCommandAsOP(player, "gui open 추천상점");
             return false;
         }
-        player.sendMessage("§c 로비에서 이용할 수 있습니다.");
+        player.sendMessage("§c 로비 1채널에서만 이용할 수 있습니다.");
         return true;
     }
 
