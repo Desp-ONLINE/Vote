@@ -78,7 +78,7 @@ public final class Vote extends JavaPlugin {
             @Override
             public void run() {
                 LocalTime now = LocalTime.now();
-                if(now.getHour() == 1 && now.getMinute() == 10){
+                if(now.getHour() == 9 && now.getMinute() == 0){
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
                         int voteAmount = dailyVote / 5;
