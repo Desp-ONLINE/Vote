@@ -19,6 +19,7 @@ import org.desp.vote.database.DailyVoteRepository;
 import org.desp.vote.database.PlayerDataRepository;
 import org.desp.vote.listener.PlayerJoinAndQuitListener;
 import org.desp.vote.listener.VoteListener;
+import org.swlab.etcetera.EtCetera;
 
 public final class Vote extends JavaPlugin {
 
@@ -35,7 +36,9 @@ public final class Vote extends JavaPlugin {
         LocalDate now = LocalDate.now();
         lastCheckedMonth = now.getMonthValue();
         scheduleDailyReset();
-        minuteScheduler();
+        if(EtCetera.getChannelType().equals("lobby") && EtCetera.getChannelNumber() == 1){
+            minuteScheduler();
+        }
         Bukkit.getPluginManager().registerEvents(new PlayerJoinAndQuitListener(), this);
         Bukkit.getPluginManager().registerEvents(new VoteListener(), this);
         getCommand("추천").setExecutor(new VoteCommand());
@@ -73,12 +76,15 @@ public final class Vote extends JavaPlugin {
         }, delay, 86400000); // 매일 실행
     }
 
+    private LocalDate lastEventDate = null;
+
     private void minuteScheduler() {
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
             public void run() {
                 LocalTime now = LocalTime.now();
-                if(now.getHour() == 9 && now.getMinute() == 0){
+                if(now.getHour() == 21 && now.getMinute() == 0 && !LocalDate.now().equals(lastEventDate)){
+                    lastEventDate = LocalDate.now();
                     Integer dailyVote = DailyVoteRepository.getInstance().getDailyVote();
                     if(LocalDate.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDate.now().getDayOfWeek() == DayOfWeek.SUNDAY){
                         int voteAmount = dailyVote / 5;
@@ -86,7 +92,7 @@ public final class Vote extends JavaPlugin {
                         DailyVoteRepository.getInstance().resetDailyVote();
                         return;
                     }
-                    int voteAmount = dailyVote / 7;
+                    int voteAmount = dailyVote / 6;
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "idemanager channelcommand true 경험치이벤트 "+voteAmount+" 1800");
                     DailyVoteRepository.getInstance().resetDailyVote();
                 }
